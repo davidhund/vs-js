@@ -1,0 +1,178 @@
+<!DOCTYPE html><head><meta charset="UTF-8" />
+<title>VS-JS Javascript Snippets examples</title>
+<style>
+/* Example HTML base styles: not needed! */ 
+body { background: #EEE; color: #333; font: 14px/1.5 normal Helvetica, Arial, sans-serif; text-shadow: 0 1px 0 #FFF; }
+#top { display: block; width: 640px; margin: 0 0 0 230px; padding: 2em; }
+code { background: #FFFFEE; padding: .2em; border: 1px solid #DDD;}
+h2:after { content: ":"; }
+
+#bottom { margin: 50em 0 2em; }
+#bottom span { display: none; }
+
+#bottom.focused span { display: inline; color: green; }
+
+.extra-email-class { color: brown; }
+
+#status {  position: fixed; left: 10px; top: 10px; width: 200px; padding: 10px; border: 1px solid #CCC; background: #FFF; -moz-box-shadow: 2px 2px 2px rgba(0,0,0,.3); -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,.3); box-shadow: 2px 2px 2px rgba(0,0,0,.3); -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
+#status h2 { font-size: 12px; margin: 0 0 1em 0; padding: 0; border-bottom: 1px solid #CCC;}
+#status ul { margin: 0; padding: 0; list-style-type: none; font-size: 12px; }
+#status ul li { margin: 0; padding: 0; padding: .2em; border-bottom: 1px solid #CCC; }
+#status .error, #status .warning, #status .success { color: red; background: pink; padding: .2em; }
+#status .warning { color: orange; background: #FFFFEE; } 
+#status .success { color: green; background: #FFFFEE; }
+
+
+</style>
+</head>
+<body>
+	<div id="top">
+		
+		<h1>Examples of VS-JS Javascript Snippets</h1>
+		<p>Check source ;-)</p>
+
+		<h2>Smooth scrolling</h2>
+		<p>The following link should scroll the page <strong>smoothly</strong> to the bottom: <a href="#bottom">Yeah baby, smooth!</a></p>
+		<p class="special-smooth">Same, with options (such as focused class): <a href="#bottom">Yeah baby, smooth options!</a></p>
+
+		<h2>Console.log</h2>
+		<p>Every webdeveloper using <code>console.log()</code> has forgotten to remove such statements at least once, resulting in scripts breaking in browsers that do not support it (you know…). Right? This is in no way saying that you should leave <code>console.log()</code> statements littered troughout your code. <strong>Do not!</strong></p>
+		<p>However, when you <em>do</em> (by accident), this will now result in an <code>alert()</code>. <button onclick="console.log('This will be logged or alerted!');">Try it out</button></p>
+
+		<h2>E-mail address link</h2>
+		<p>The following should be converted in a valid email link. "email" class is preserved for e.g. microformats:</p>
+		<p><code>&lt;span class=&quot;email&quot;&gt;myname [at] my domain&lt;/span&gt;</code> &rarr; <span class="email">myname [at] my domain</span></p>
+		<p>The following should ALSO be converted, JS uses extra options</p>
+		<p><code>&lt;span class=&quot;email2&quot;&gt;JohnDoe *AT* johns domain&lt;/span&gt;</code> &rarr; <span class="email2">JohnDoe *AT* johns domain</span></p>
+
+		<h2>Input Empty</h2>
+		<p>This little jQuery plugin empties an imput onclick when the value is the defaultValue. It replaces the defaultValue when the input remains unchanged or blank.</p>
+		<p>The script needs to be re-written to allow for the HTML5 <code>placeholder</code></p>
+		<p>Click in- and outside the input. Enter text, and delete it, etc. &rarr; <input value="Default Value" type="text" /><br />
+			The following input has only a HTML5 placeholder attribute: &rarr; <input placeholder="HTML5 PLACEHOLDER" value="" type="text" />
+		</p>
+	</div>
+
+	<p id="bottom" class="testclass">Are you down with me, smooth boy? <span>Nice! (a focus class added)</span> (<a href="#top">Go back up</a>)</p>
+
+<!-- Mostly include scripts at the bottom of the page -->
+<!-- Latest jQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<!-- console.log util -->
+<script src="console.log.js"></script>
+<!-- Replace Email jQuery plugin -->
+<script src="jquery.replacemail.js"></script>
+<!-- Input Empty jQuery plugin -->
+<script src="jquery.inputempty.js"></script>
+<!-- Smooth scrolling anchors jQuery plugin -->
+<script src="jquery.smooth-scrolling-anchors.js"></script>
+
+<script>
+var vsHud = {
+	// A tiny HUD status console
+	hudId: "status",
+	hud: null,
+	hudHeader: null,
+	hudClear: null,
+	hudList: null,
+	state: null,
+
+	init: function(){
+		// setuup the HUD
+		this.hud = document.createElement('div');
+		this.hud.setAttribute('id', this.hudId);
+
+		this.hudHeader = document.createElement('h2');
+		this.hudHeader.innerHTML = "Status";
+
+		this.hudClear = document.createElement('a');
+		this.hudClear.setAttribute('href', '#');
+		this.hudClear.setAttribute('id', 'clear-hud');
+		this.hudClear.innerHTML = "Clear";
+		this.hudClear.onclick = function(e){
+			e.preventDefault();
+			vsHud.clear();
+		}
+
+		this.hudList = document.createElement('ul');
+
+		this.hud.appendChild(this.hudHeader);
+		this.hud.appendChild(this.hudList);
+		this.hud.appendChild(this.hudClear);
+		document.getElementsByTagName('body')[0].appendChild(this.hud);
+	},
+	log: function(t,m){
+		var classN, labelN;
+		if(t == 'success' || t == 'warning' || t == 'error'){
+			classN = t;
+			labelN = t[0].toUpperCase();
+			labelN += t.substring(1,t.length)+':';
+		}else{
+			classN = '';
+			labelN = 'Msg:';
+		}
+		var li = document.createElement('li');
+		li.setAttribute('class', classN);
+		li.innerHTML = "<strong>"+labelN+"</strong> "+m;
+		this.hudList.appendChild(li);
+	},
+	clear: function(){
+		var i = this.hudList.childNodes.length;
+		while(i--){
+			var li = this.hudList.childNodes[i];
+			li.parentNode.removeChild(li);
+		}
+	}
+};
+
+// UTILITY function for this page
+vsHud.init();
+// vsHud.log(null,'A default message');
+// vsHud.log('success','This is a test success message');
+// vsHud.log('warning','This is a test warning message');
+// vsHud.log('error','This is a test error message');
+// vsHud.clear();
+
+if(typeof jQuery != 'undefined') {
+
+	$(document).ready(function(){
+		// Initialise the above scripts on document ready...
+	
+		// Convert email addresses
+		$('.email').replacemail(); // Standard
+	 	// Again: With extra options
+		var email_options = {
+			atSymbol: " *AT* ", // Symbol used to hide an email address in plain text
+			altDomain: "gmail.com", // An alternative domain, used instead of the current site
+			className: "extra-email-class" // Extra classname added to created email links
+		};
+		$('.email2').replacemail(email_options);
+
+
+		// Have some anchors scroll smoothly...
+		$('body').scrollanchors();
+		// Again: with extra options
+		var scroll_options = {
+			speed: 1500,
+			focusClass: "focused", // Set to classname, e.g. 'focused' and it will be added upon focus
+			focusTime: 2000, // Time in ms after which the class should be removed again
+			easing: false // Needs jQuery Easing Plugin: http://gsgd.co.uk/sandbox/jquery/easing/
+		};
+		$('.special-smooth').scrollanchors(scroll_options);
+
+
+		// Simulate 'placeholder' functionality on inputs
+		$('body').emptyonfocus(); // All found *valid* inputs in body are targeted
+
+		vsHud.log('success', 'All jQuery scripts loaded...');
+	});
+
+} else {
+	// jQuery not properly loaded
+	var error = "jQuery is not properly loaded!";
+	console.log(error);
+	vsHud.log('error',error);
+}
+</script>
+</body>
+</html>

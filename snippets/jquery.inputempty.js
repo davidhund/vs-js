@@ -35,14 +35,20 @@ if(typeof jQuery != 'undefined') {
 				}
 
 				if(vf){
-					vf.focus(function(){
-						if($(this).val() === this.defaultValue){$(this).val("")};
-						$(this).addClass(options.focusClassName);
-					})
-					.blur(function(){
-						if(!$(this).val()){$(this).val(this.defaultValue)};
-						$(this).removeClass(options.focusClassName);
-					});
+					// TODO: If HTML5 'placeholder' is added but not supported, add support: use placeholder :-)
+					// ..
+					// TODO: Only proceed if HTML5 'placeholder' is not found or empty!
+					// ..
+					// if( !('placeholder' in vf) || vf.attr('placeholder') == ""){
+						vf.focus(function(){
+							if($(this).val() === this.defaultValue){$(this).val("")};
+							$(this).addClass(options.focusClassName);
+						})
+						.blur(function(){
+							if(!$(this).val()){$(this).val(this.defaultValue)};
+							$(this).removeClass(options.focusClassName);
+						});
+					// }
 				}
 			});
 		};

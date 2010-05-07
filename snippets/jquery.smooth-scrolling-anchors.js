@@ -9,6 +9,7 @@
 	- Taken from: http://snipt.net/Jonic/jquery-smooth-scrolling-on-internal-links/
 	- Adapted to function as a jQuery Plugin
 	- Added 'easing' options
+	- use as: $('container elements').scrollanchors([opts]);
 
 	EASING OPTIONS (jQuery default: 'swing'): 
 		To enable easing:
@@ -23,6 +24,7 @@ if(typeof jQuery != 'undefined') {
 			var defaults = {
 				speed: 900,
 				focusClass: false, // Set to classname, e.g. 'focused' and it will be added upon focus
+				focusTime: 3000, // Time (ms) the focusClass should be added -> animation: if null/false the class should remain...
 				easing: false
 			},
 			options = $.extend(defaults, options);
@@ -42,6 +44,12 @@ if(typeof jQuery != 'undefined') {
 							if(options.focusClass){
 								// set options.focusClass on target
 								$target.addClass(options.focusClass);
+								if(options.focusTime){
+									window.setTimeout(function(){
+										// Remove classname after some time
+										$target.removeClass(options.focusClass);
+									},options.focusTime);
+								}
 							}
 						}
 					}

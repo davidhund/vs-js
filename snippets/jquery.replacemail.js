@@ -13,11 +13,12 @@
 if(typeof jQuery != 'undefined') {
 	(function($) {
 		jQuery.fn.replacemail = function(options) {
-			// Default: <span class="email">info [AT] this domain</span>
+			// Default: <EL class="email">info [AT] this domain</EL>
+
+			// OPTIONS:
 			var defaults = {
 				atSymbol: " [AT] ", // Used to hide an email address in plain text
-				domain: window.location.domain, // the default second part of email address: the domain.com
-				domainString: "this domain", // A JS-off replacement text
+				altDomain: null, // An alternative domain: e.g. myothersite.com. If not used, current domain is used
 				className: "email" // Extra classname added to created email links
 			},
 			options = $.extend(defaults, options);
@@ -27,11 +28,11 @@ if(typeof jQuery != 'undefined') {
 				var text1 = textmail.text().toLowerCase();
 				var at = options.atSymbol.toLowerCase();
 				if(text1.indexOf(at) > 0){
-					var pre = text1.substring(0, text1.indexOf(at)).replace(/^\s+|\s+$/g,""); // Remove whitespace
-					var post = text1.substring(text1.length, (text1.indexOf(at)+at.length)).replace(/^\s+|\s+$/g,"");
-					var chosen_domain = options.domain;
-					if(post !== window.location.domain && post !== options.domainString){chosen_domain = post};
-					var address = pre+"&#64;"+chosen_domain;
+					var pre_at = text1.substring(0, text1.indexOf(at)).replace(/^\s+|\s+$/g,""); // Remove whitespace
+					var post_at = text1.substring(text1.length, (text1.indexOf(at)+at.length)).replace(/^\s+|\s+$/g,"");
+					var domain = (window.location.domain != undefined) ? window.location.domain : post_at; 
+					var chosen_domain = (options.altDomain) ? options.altDomain : domain;
+					var address = pre_at+"&#64;"+chosen_domain;
 					var link = "<a href='mailto:"+address+"' class='"+options.className+"'>"+address+"</a>";
 					textmail.replaceWith(link);
 				}
