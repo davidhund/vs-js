@@ -1,0 +1,32 @@
+/* 
+	These styles are simply for styling the example page, not needed
+*/
+body { background: #EEE; color: #333; font: 14px/1.5 normal Helvetica, Arial, sans-serif; text-shadow: 0 1px 0 #FFF; }
+#top { display: block; width: 640px; margin: 0 0 0 230px; padding: 2em; }
+#toc { list-style-type: none; margin: 0; padding: 0; }
+#toc li { display: inline; margin-right: 1em;}
+.↑ { text-align: right; } /* Teehee ;-) */
+code { background: #FFFFEE; padding: .2em; border: 1px solid #DDD;}
+h1 { margin: 0;}
+h2 { clear: both; background: #DDD; padding: .2em .5em; margin-top: 2em;-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;  }
+h2:after { content: ":"; }
+
+#bottom { margin: 50em 0 2em; }
+#bottom span { display: none; }
+
+#bottom.focused span { display: inline; color: green; }
+
+.extra-email-class { color: brown; }
+
+#icon-links, #icon-links2 { list-style-type: none; margin: 0; padding: 0; }
+.column1, .column2 { float: left; width: 49%; }
+.column2 { float: right; }
+
+
+#status {  position: fixed; left: 10px; top: 3em; width: 200px; padding: 10px; border: 1px solid #CCC; background: #FFF; -moz-box-shadow: 2px 2px 2px rgba(0,0,0,.3); -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,.3); box-shadow: 2px 2px 2px rgba(0,0,0,.3); -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
+#status h2 { font-size: 12px; margin: 0 0 1em 0; padding: 0; border-bottom: 1px solid #CCC; background-color: transparent;}
+#status ul { margin: 0; padding: 0; list-style-type: none; font-size: 12px; }
+#status ul li { margin: 0; padding: 0; padding: .2em; border-bottom: 1px solid #CCC; }
+#status .error, #status .warning, #status .success { color: red; background: pink; padding: .2em; }
+#status .warning { color: orange; background: #FFFFEE; } 
+#status .success { color: green; background: #FFFFEE; }
